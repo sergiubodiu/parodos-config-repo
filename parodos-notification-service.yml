@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: parodos-notification-service
+
+  jackson:
+    default-property-inclusion: non_null
+  main:
+    lazy-initialization: true
+
+springdoc:
+  writer-with-order-by-keys: true
+  writer-with-default-pretty-printer: true
+
+
+# ===================================================================
+# Application specific properties
+# Add your own application properties here, see the
+# ApplicationProperties class to have type-safe configuration
+# ===================================================================
+ 
+  

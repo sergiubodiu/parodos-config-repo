@@ -1,0 +1,33 @@
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  ldap:
+    embedded:
+      ldif: classpath:test-server.ldif
+      base-dn: dc=springframework,dc=org
+      port: 8389
+    connection:
+      userDNPatterns: "uid={0},ou=people"
+      groupSearchBase: "ou=groups"
+      url: "ldap://localhost:8389/dc=springframework,dc=org"
+      passwordAttribute: "userPassword"
+      managerDN: null
+      managerPassword: null
+  lifecycle:
+    timeout-per-shutdown-phase: "25s"
+  cloud:
+    config:
+      import: optional:configserver:http://localhost:8888
+
+logging:
+  level:
+    ROOT: INFO
+    com.redhat.parodos.workflow: DEBUG
+
+# ===================================================================
+# Application specific properties
+# Add your own application properties here, see the
+# ApplicationProperties class to have type-safe configuration
+# ===================================================================

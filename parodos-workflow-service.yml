@@ -1,0 +1,70 @@
+spring:
+  application:
+    name: parodos-workflow-service
+
+  jackson:
+    serialization:
+      indent-output: true
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+        event:
+          merge:
+            entity_copy_observer: allow
+
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: ${DATASOURCE_URL:jdbc:h2:mem:workflow_service;INIT=CREATE TYPE IF NOT EXISTS "JSONB" as json;}
+    driverClassName: ${DATASOURCE_DRIVER:org.h2.Driver}
+    username: ${DATASOURCE_USERNAME:postgres}
+    password: ${DATASOURCE_PASSWORD:postgres}
+    hikari:
+      poolName: ${DATASOURCE_NAME}
+
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: deferred
+
+  liquibase:
+    change-log: classpath:/db/master.xml
+
+  main:
+    allow-bean-definition-overriding: true
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${keycloak_url:http://localhost:3434/realms/Parodos/protocol/openid-connect/certs}
+
+  lifecycle:
+    timeout-per-shutdown-phase: "25s"
+
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      enabled: true
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: "health,shutdown"
+
+server:
+  shutdown: "graceful"
+
+springdoc:
+  swagger-ui:
+    tagsSorter: alpha
+  writer-with-order-by-keys: true
+  writer-with-default-pretty-printer: true
+
+scan:
+  packages: ${CONFIGURATION_PACKAGE:-}
